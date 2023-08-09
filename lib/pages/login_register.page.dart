@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   void signUserIn() {}
 
   Future<void> signInWithEmailAndPassword() async {
-    print(11);
+    
     try {
       await Auth(FirebaseAuth.instance).signInWithEmailAndPassword(
         email: _controllerEmail.text,
@@ -237,7 +237,7 @@ class _ResetPageState extends State<ResetPage> {
   }
 
   Widget _errorMessage() {
-    print(222);
+   
     if (errorMessage == 'success') {
       String email = _controllerEmail.text;
       return Text(

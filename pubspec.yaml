@@ -74,17 +74,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  fonts:
-    - family: Raleway
-      fonts:
-        - asset: fonts/Raleway-Regular.ttf
-        - asset: fonts/Raleway-Italic.ttf
-          style: italic
-    - family: RobotoMono
-      fonts:
-        - asset: fonts/RobotoMono-Regular.ttf
-        - asset: fonts/RobotoMono-Bold.ttf
-          weight: 700
+  
   uses-material-design: true
 
   # The following line ensures that the Material Icons font is
@@ -121,7 +111,7 @@ flutter:
     - assets/surprised.json
     - assets/angry.json
     - assets/sad.json
-    - google_fonts/
+   
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

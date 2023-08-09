@@ -88,8 +88,7 @@ class _SettingPageState extends State<SettingPage> {
                 .doc(currentUser.uid)
                 .collection('habits')
                 .get();
-        print(111);
-        print(dateSnapshots.docs.length);
+      
 
         for (QueryDocumentSnapshot<
                 Map<String, dynamic>> dateSnapshot //datesnapshot == tanggal
@@ -99,8 +98,7 @@ class _SettingPageState extends State<SettingPage> {
           QuerySnapshot<Map<String, dynamic>> habitsSnapshot =
               await habitsCollection.get()
                   as QuerySnapshot<Map<String, dynamic>>;
-          print(habitsSnapshot.docs.toString());
-          print(habitsSnapshot.docs.length);
+         
 
           habitsSnapshot.docs.forEach((habitDoc) {
             Map<String, dynamic> habitData = habitDoc.data();
@@ -109,7 +107,7 @@ class _SettingPageState extends State<SettingPage> {
             if (habitList.length >= 2) {
               bool habitCompleted = habitList[1];
               if (habitCompleted) {
-                print(habitList[0]);
+               
                 numberOfHabitsDone++; // Increment the count of habits done
               }
             }
@@ -119,7 +117,7 @@ class _SettingPageState extends State<SettingPage> {
         print('Error querying data: $e');
       }
 
-      print('Number of habits done: $numberOfHabitsDone');
+     
     }
   }
 
@@ -186,6 +184,7 @@ class _SettingPageState extends State<SettingPage> {
             _buildUserCard(
                 Icons.mood, 'Number of Moods Saved', '$numberOfMoodsSaved'),
             _buildUserCard(Icons.check_circle, 'Number of Habits Done',
+            
                 '$numberOfHabitsDone'),
             SizedBox(height: 40),
             Center(

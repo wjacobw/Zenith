@@ -7,13 +7,17 @@ class EditHabitBox extends StatefulWidget {
     Key? key,
     required this.onSave,
     required this.docId,
-    required this.controller,
+    required this.nameController,
+    required this.durationController,
+    required this.noteController,
     required this.onCancel,
   }) : super(key: key);
 
   final VoidCallback onSave;
   final String docId;
-  final TextEditingController controller;
+  final TextEditingController nameController;
+  final TextEditingController durationController;
+  final TextEditingController noteController;
   final VoidCallback onCancel;
 
   @override
@@ -37,18 +41,62 @@ class _EditHabitBoxState extends State<EditHabitBox> {
 
             return AlertDialog(
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
-              content: TextField(
-                controller: widget.controller,
-                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                decoration: InputDecoration(
-                  hintText: data['habit'][0],
-                  hintStyle: TextStyle(color: Colors.grey[600]),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: const Color.fromARGB(255, 0, 0, 0))),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: const Color.fromARGB(255, 0, 0, 0))),
+              content: Container(
+                height: 200,
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: widget.nameController,
+                      style:
+                          const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                      decoration: InputDecoration(
+                        hintText: data['habit'][0],
+                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: widget.durationController,
+                      style:
+                          const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                      decoration: InputDecoration(
+                        hintText: data['duration'].toString(),
+                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: widget.noteController,
+                      style:
+                          const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                      decoration: InputDecoration(
+                        hintText: data['note'].toString(),
+                        hintStyle: TextStyle(color: Colors.grey[600]),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: const Color.fromARGB(255, 0, 0, 0))),
+                      ),
+                    )
+                  ],
                 ),
               ),
               actions: [

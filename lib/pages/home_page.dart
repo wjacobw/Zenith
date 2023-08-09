@@ -9,7 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zenith/class/level.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zenith/datetime/date_time.dart';
-
+import 'package:zenith/pages/statistics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 //line 406
 
 final List<Actions1> finishedActions = [
@@ -50,6 +52,7 @@ class _HomePageState extends State<HomePage> {
   late int _totalExperience;
   late Level acc;
   late String room;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final Map<String, String> animationMap = {
     'Category.others': 'others.html',
@@ -76,6 +79,17 @@ class _HomePageState extends State<HomePage> {
     room = 'blue';
     _loadFirestoreLevel();
     String roomCol = 'Brown';
+
+    String getUserId() {
+      // new change
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        return user.uid;
+      }
+      // If the user is not authenticated or null, handle the case accordingly
+      // For example, you can return a default or empty string
+      return '';
+    }
 
     // Define a function to initialize the WebViewController and load the request
     void initializeWebView(String roomCol) {
@@ -876,6 +890,8 @@ class _NewActionState extends State<NewAction> {
               ));
       return;
     }
+    print(_titleController.text);
+    print(enteredDuration);
     widget.onAddAction(Actions1(
         // onAddAction at line 6
         title: _titleController.text,
@@ -884,6 +900,7 @@ class _NewActionState extends State<NewAction> {
         category: _selectedCategory,
         note: _noteController.text));
     _HomePageState().activitySet(_titleController);
+
     Navigator.pop(context);
   }
 
@@ -898,15 +915,13 @@ class _NewActionState extends State<NewAction> {
         Expanded(
           child: Scaffold(
             appBar: AppBar(
-              title: Text('New Action'),
+              title: Text('Action Panel'),
             ),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                 child: ListView(
-                  children: _currentMode == NewActionMode.ChooseHabit
-                      ? _buildChooseHabitView()
-                      : _buildInputManuallyView(),
+                  children: _buildInputManuallyView(),
                 ),
               ),
             ),
@@ -932,7 +947,7 @@ class _NewActionState extends State<NewAction> {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: const Text(
-                  "Habit Tracker",
+                  "Existing Habit",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -955,7 +970,7 @@ class _NewActionState extends State<NewAction> {
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: const Text(
-                  "Input Manually",
+                  "New Habit",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -970,53 +985,146 @@ class _NewActionState extends State<NewAction> {
     ];
   }
 
+  void saveNewHabit2(BuildContext context) async {
+    String userID = getUserId();
+    DocumentReference userDoc = firestore.collection("users").doc(userID);
+    CollectionReference habitsCollection = userDoc.collection("habits");
+
+    // Get the current date in "yyyy-mm-dd" format
+    String currentDateStr = convertDateTimeToString(DateTime.now());
+
+    // Create a new habit with the name and completion status
+    Map<String, dynamic> newHabitData = {
+      'habit': [_titleController.text, false],
+      'duration': _timeController.text,
+      'note': _noteController.text,
+      'difficulty': _selectedDifficulty.toString(),
+      'category': _selectedCategory.toString(),
+
+      'string': '0', // Add the 'string' field with the value '0'
+    };
+
+    // Check if the habit subcollection for the current date exists
+    habitsCollection.doc(currentDateStr).set({'x': 0});
+    // If the subcollection for the current date exists, add a new habit document to it
+    await habitsCollection
+        .doc(currentDateStr)
+        .collection('habits')
+        .add(newHabitData);
+
+    //_titleController.clear();
+    //_timeController.clear();
+    //_noteController.clear();
+    //calculateHabitPercentage();
+
+    // Pop dialog box
+    //Navigator.of(context).pop();
+
+    //await calculateHeatMapData();
+    setState(() {});
+  }
+
+  void thisFunction() {
+    _submitActionData();
+    saveNewHabit2(context);
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> _suggestedHabits = [];
+
+  void _onHabitSearchChanged(String query) {
+    // Access the stream data and filter the habits based on the query
+    streamData().listen((snapshot) {
+      print(snapshot);
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> matchingHabits = [];
+      print(999);
+      print(snapshot.docs.length);
+      for (var doc in snapshot.docs) {
+        final habitData = doc.data() as Map<String, dynamic>;
+        final habitName = habitData['habit'][0] as String;
+        print(habitName);
+        print(doc['duration']);
+
+        if (habitName.toLowerCase().startsWith(query.toLowerCase())) {
+          print('hahaha');
+          print(123);
+          matchingHabits.add(doc);
+          print('hahaha');
+          print(matchingHabits.length);
+        }
+      }
+
+      setState(() {
+        _suggestedHabits = matchingHabits;
+      });
+    });
+  }
+
+  void _onSuggestedHabitSelected(
+      QueryDocumentSnapshot<Map<String, dynamic>> habit) {
+    // Populate the TextField with the selected habit
+    print(11);
+    final habitData = habit.data();
+
+    final habitName = habitData['habit'][0] as String;
+    _titleController.text = habitName;
+    final habitduration = habitData['duration'];
+    _timeController.text = habitduration;
+    final habitnote = habitData['note'];
+    _noteController.text = habitnote;
+    _selectedCategory = habitData['category'];
+    _selectedDifficulty = habitData['difficulty'];
+    print(777);
+    print(habitName);
+    //_timeController.text = habit['duration'].toString();
+    //_noteController.text = habit['note'].toString();
+    //_selectedCategory = habit['category'];
+    //_selectedDifficulty = habit['difficulty'];
+
+    // Clear the suggestions
+    setState(() {
+      _suggestedHabits = [];
+    });
+  }
+
   List<Widget> _buildInputManuallyView() {
     return [
-      Expanded(
-        child: Row(
+      SizedBox(height: 10),
+      Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey, width: 2),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _onChooseHabitButtonPressed,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
-                child: const Text(
-                  "Habit Tracker",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+            Text(
+              'Suggestions:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: _onInputManuallyButtonPressed,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+            SizedBox(height: 5),
+            Wrap(
+              spacing: 8,
+              children: _suggestedHabits.map((habit) {
+                return ElevatedButton(
+                  onPressed: () {
+                    _onSuggestedHabitSelected(habit);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                ),
-                child: const Text(
-                  "Input Manually",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  child: Text(
+                    habit.data()['habit'][0],
+                    style: TextStyle(color: Colors.white),
                   ),
-                ),
-              ),
+                );
+              }).toList(),
             ),
           ],
         ),
@@ -1028,6 +1136,7 @@ class _NewActionState extends State<NewAction> {
         controller: _titleController,
         maxLength: 20,
         keyboardType: TextInputType.name,
+        onChanged: _onHabitSearchChanged,
         decoration: InputDecoration(
           labelText: 'Title',
           border: OutlineInputBorder(
@@ -1155,7 +1264,7 @@ class _NewActionState extends State<NewAction> {
         height: 10,
       ),
       ElevatedButton(
-        onPressed: _submitActionData,
+        onPressed: thisFunction,
         style: ElevatedButton.styleFrom(
           primary: Colors.orange, // Set the background color
           shape: RoundedRectangleBorder(
