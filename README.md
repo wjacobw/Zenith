@@ -3,7 +3,7 @@
 <h3>Tech Stack Used</h3>
 <p>
   <img alt="Flutter" src="https://static.wikia.nocookie.net/logo-timeline/images/c/cf/4B4A9751-D2BF-4A93-BDCC-CDCA5326B65F.png/revision/latest?cb=20210426191500" width="100px" />
-  <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" width="100px"/>
+  <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" width="120px"/>
   <img alt="FireBase" src="https://cdn.dribbble.com/users/528264/screenshots/3140440/media/5f34fd1aa2ebfaf2cd548bafeb021c8f.png" width="100px"/>
   <img alt="ThreeJS" src="https://ucarecdn.com/22a0a69b-689f-46c9-866b-57650f31fde9/" width="100px"/>
 </p>
