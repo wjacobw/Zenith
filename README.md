@@ -4,6 +4,6 @@
 <p>
   <img alt="Flutter" src="https://static.wikia.nocookie.net/logo-timeline/images/c/cf/4B4A9751-D2BF-4A93-BDCC-CDCA5326B65F.png/revision/latest?cb=20210426191500" width="50px" />
   <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" />
-  <img alt="FireBase" src="https://ucarecdn.com/22a0a69b-689f-46c9-866b-57650f31fde9/" width="50px"/>
+  <img alt="FireBase" src="https://firebase.google.com/brand-guidelines" width="50px"/>
   <img alt="ThreeJS" src="https://ucarecdn.com/22a0a69b-689f-46c9-866b-57650f31fde9/" width="50px"/>
 </p>
