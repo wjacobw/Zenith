@@ -2,7 +2,7 @@
 <p>Do you ever find yourself overwhelmed with a never-ending to-do list and feeling utterly exhausted? Enter Zenith, your solution to managing time, prioritizing mental well-being, and cultivating healthy habits. Zenith is an innovative online mobile application that seamlessly blends gamification elements with scheduling features, designed especially for students.</p>
 <h3>Tech Stack Used</h3>
 <p>
-  <img alt="Flutter" src="https://static.wikia.nocookie.net/logo-timeline/images/c/cf/4B4A9751-D2BF-4A93-BDCC-CDCA5326B65F.png/revision/latest?cb=20210426191500" />
+  <img alt="Flutter" src="https://static.wikia.nocookie.net/logo-timeline/images/c/cf/4B4A9751-D2BF-4A93-BDCC-CDCA5326B65F.png/revision/latest?cb=20210426191500" width="50px" />
   <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" />
   <img alt="FireBase" src="https://img.shields.io/badge/-MongoDB-13aa52?style=flat-square&logo=mongodb&logoColor=white" />
   <img alt="ThreeJS" src="https://img.shields.io/badge/-Nodejs-43853d?style=flat-square&logo=Node.js&logoColor=white" />
