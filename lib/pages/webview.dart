@@ -33,7 +33,6 @@ class _WebviewState extends State<Webview> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            // Update loading bar.
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
@@ -57,8 +56,8 @@ class _WebviewState extends State<Webview> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.black, // Black border color
-              width: 2.0, // Border width
+              color: Colors.black, 
+              width: 2.0, 
             ),
           ),
           child: WebViewWidget(controller: _controller!),

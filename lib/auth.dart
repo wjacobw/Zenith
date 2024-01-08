@@ -21,7 +21,6 @@ class Auth {
     );
     print(currentUser);
 
-    // Check if it's the first login
   }
 
   Future<void> createUserWithEmailAndPassword({
@@ -40,17 +39,14 @@ class Auth {
           await userDoc.get() as DocumentSnapshot<Map<String, dynamic>>;
 
       if (!snapshot.exists) {
-        // It's the first login, create the user document
         DateTime now = DateTime.now();
         await userDoc.set({
           'firstLoginDate': now,
           'email': email,
         });
       } else {
-        // The user document exists, check if 'firstLoginDate' field is present
         Map<String, dynamic> data = snapshot.data()!;
         if (!data.containsKey('firstLoginDate')) {
-          // 'firstLoginDate' field is not present, add it
           DateTime now = DateTime.now();
           await userDoc.set({
             'firstLoginDate': now,

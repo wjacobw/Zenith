@@ -12,7 +12,6 @@ class MoodCard extends ChangeNotifier {
   }
 
   void add(Activity activity) {
-    // Check if the activity already exists in the activities list
     if (!activities.contains(activity)) {
       activities.add(activity);
       activityimage.add(activity.image);
@@ -47,7 +46,7 @@ class MoodCard extends ChangeNotifier {
   List<String> actiname = [];
 
   Future<void> addPlace(
-    String accountId, // New argument: Account ID
+    String accountId, 
     String date,
     String mood,
     String image,
@@ -78,11 +77,6 @@ class MoodCard extends ChangeNotifier {
       'actname': actname,
     });
 
-    // Create the activity object and add it to the list
-
-    // Clear the activity image and name lists
-
-    // Add the unique activity images and names back to the lists
     activityimage.addAll(uniqueActivityImage);
     activityname.addAll(uniqueActivityName);
 
@@ -93,10 +87,9 @@ class MoodCard extends ChangeNotifier {
   }
 
   Future<void> deletePlaces(
-    String accountId, // New argument: Account ID
+    String accountId, 
     String docId,
   ) async {
-    // Reference the user_moods subcollection for the specific account
     final accountRef = store == null ? FirebaseFirestore.instance.collection('users').doc(accountId) :
         store!.collection('users').doc(accountId);
     final userMoodsRef = accountRef.collection('user_moods');

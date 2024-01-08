@@ -72,10 +72,10 @@ class _AddEventState extends State<AddEvent> {
           Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey, // Outline color
-                width: 2, // Outline width
+                color: Colors.grey, 
+                width: 2, 
               ),
-              borderRadius: BorderRadius.circular(8), // Rounded corners
+              borderRadius: BorderRadius.circular(8), 
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12),
@@ -84,7 +84,7 @@ class _AddEventState extends State<AddEvent> {
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: 'Enter Event Title',
-                  border: InputBorder.none, // Hide the default underline
+                  border: InputBorder.none,
                 ),
               ),
             ),
@@ -99,16 +99,16 @@ class _AddEventState extends State<AddEvent> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey, // Outline color
-                      width: 2, // Outline width
+                      color: Colors.grey, 
+                      width: 2, 
                     ),
-                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
                     controller: _startHMController,
                     decoration: InputDecoration(
                       labelText: 'Start Time',
-                      border: InputBorder.none, // Hide the default underline
+                      border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(horizontal: 12),
                     ),
                     readOnly: true,
@@ -122,16 +122,16 @@ class _AddEventState extends State<AddEvent> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.grey, // Outline color
-                      width: 2, // Outline width
+                      color: Colors.grey, 
+                      width: 2,
                     ),
-                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
                     controller: _endHMController,
                     decoration: InputDecoration(
                       labelText: 'End Time',
-                      border: InputBorder.none, // Hide the default underline
+                      border: InputBorder.none, 
                       contentPadding: EdgeInsets.symmetric(horizontal: 12),
                     ),
                     readOnly: true,
@@ -183,13 +183,12 @@ class _AddEventState extends State<AddEvent> {
               labelText: 'Description',
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: Colors.orange, // Set the border color to orange
-                  width: 2.0, // Set the border width
+                  color: Colors.orange, 
+                  width: 2.0, 
                 ),
                 borderRadius: BorderRadius.circular(
-                    8), // Add rounded corners to the border
+                    8), 
               ),
-              // Optional: You can add padding to the input field if desired
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
@@ -200,19 +199,19 @@ class _AddEventState extends State<AddEvent> {
               _addEvent();
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.orange, // Set the background color
+              primary: Colors.orange,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8), // Rounded corners
+                borderRadius: BorderRadius.circular(8), 
               ),
               padding: EdgeInsets.symmetric(
-                  horizontal: 24, vertical: 12), // Add padding
+                  horizontal: 24, vertical: 12), 
             ),
             child: Text(
               "Save",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white, // Set the text color
+                color: Colors.white, 
               ),
             ),
           ),

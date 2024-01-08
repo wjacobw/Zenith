@@ -110,7 +110,6 @@ class _StatisticsState extends State<Statistics> {
 
   void checkBoxTapped(bool? value, String habitId) async {
     String userID = getUserId();
-    // Get the current date in "yyyy-mm-dd" format
     String currentDateStr = convertDateTimeToString(DateTime.now());
 
     DocumentReference userDoc = firestore.collection("users").doc(userID);
@@ -129,9 +128,9 @@ class _StatisticsState extends State<Statistics> {
         'habit': [habitName, value],
       });
 
-      await calculateHeatMapData(); // Wait for the completion of calculateHeatMapData()
+      await calculateHeatMapData();
 
-      setState(() {}); // Trigger a rebuild of the widget
+      setState(() {}); 
     }
     calculateHabitPercentage();
   }
@@ -202,7 +201,6 @@ class _StatisticsState extends State<Statistics> {
           title: Text('Alert Dialog Title'),
           content: Text('This is the content of the alert dialog.'),
           actions: <Widget>[
-            // Add buttons to the dialog
             TextButton(
               child: Text('Cancel'),
               onPressed: () {
@@ -212,7 +210,6 @@ class _StatisticsState extends State<Statistics> {
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                // Do something when OK is pressed
                 Navigator.of(context).pop(); // Close the dialog
               },
             ),
@@ -317,13 +314,10 @@ class _StatisticsState extends State<Statistics> {
   }
 
   String getUserId() {
-    // new change
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       return user.uid;
     }
-    // If the user is not authenticated or null, handle the case accordingly
-    // For example, you can return a default or empty string
     return '';
   }
 
@@ -334,7 +328,6 @@ class _StatisticsState extends State<Statistics> {
   }
 
   Future<DocumentSnapshot<Object?>> getPercentageSummary(String date) async {
-    //here
     String userID = getUserId();
     DocumentReference userDoc = firestore.collection("users").doc(userID);
     DocumentReference percentageSummary =
@@ -345,7 +338,6 @@ class _StatisticsState extends State<Statistics> {
   Future<void> calculateHabitPercentage() async {
     int countCompleted = 0;
     String userID = getUserId();
-    // Get the current date in "yyyy-mm-dd" format
     String currentDateStr = convertDateTimeToString(DateTime.now());
 
     DocumentReference userDoc = firestore.collection("users").doc(userID);
@@ -362,7 +354,6 @@ class _StatisticsState extends State<Statistics> {
 
       if (habitList.length >= 2) {
         bool habitCompleted = habitList[1];
-        // Perform your desired operations with habitCompleted value
         if (habitCompleted) {
           countCompleted++;
         }
@@ -389,19 +380,17 @@ class _StatisticsState extends State<Statistics> {
 
   String parseDifficultyString(String input) {
     final parsedValue =
-        input.split('.')[1]; // Split the input and get the second part
+        input.split('.')[1];
     return parsedValue;
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamData() {
     String userID = getUserId();
-    // Get the current date in "yyyy-mm-dd" format
     String currentDateStr = convertDateTimeToString(DateTime.now());
 
     CollectionReference habits =
         firestore.collection("users").doc(userID).collection("habits");
 
-    // Listen to the "habits" subcollection for the current date only
     return habits.doc(currentDateStr).collection("habits").snapshots();
   }
 
@@ -445,7 +434,7 @@ class _StatisticsState extends State<Statistics> {
                           width: MediaQuery.of(context).size.width,
                           child: LinearPercentIndicator(
                             linearStrokeCap: LinearStrokeCap
-                                .round, // Use round stroke caps for a thicker line
+                                .round, 
 
                             barRadius: Radius.circular(5),
                             lineHeight: 20,
@@ -502,7 +491,7 @@ class _StatisticsState extends State<Statistics> {
                     ),
                     Positioned(
                       bottom:
-                          20.0, // Adjust the value to position the button as per your requirement
+                          20.0, 
                       left: 0,
                       right: 0,
                       child: Center(

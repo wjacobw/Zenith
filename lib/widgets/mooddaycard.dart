@@ -48,13 +48,11 @@ class _MoodDayState extends State<MoodDay> {
   @override
   void initState() {
     super.initState();
-    // Set the flag to true when the widget is mounted
     widget._isMounted = true;
   }
 
   @override
   void dispose() {
-    // Set the flag to false when the widget is disposed
     widget._isMounted = false;
     super.dispose();
   }

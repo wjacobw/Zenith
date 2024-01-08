@@ -13,13 +13,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // text editing controllers
   final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
   String? errorMessage = '';
   bool isLogin = true;
 
-  // sign user in method
+
   void signUserIn() {}
 
   Future<void> signInWithEmailAndPassword() async {
@@ -152,7 +151,6 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 25),
 
-                // sign in button
                 MyButton(
                   text: isLogin ? 'Login' : 'Register',
                   onTap: isLogin
@@ -160,9 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                       : createUserWithEmailAndPassword,
                 ),
 
-                // not a member? register now
                 Row(
-                  // register now
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -183,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         )),
-                    //log in or register
+
                   ],
                 )
               ],

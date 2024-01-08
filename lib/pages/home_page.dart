@@ -12,10 +12,8 @@ import 'package:zenith/datetime/date_time.dart';
 import 'package:zenith/pages/statistics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//line 406
 
 final List<Actions1> finishedActions = [
-  // put it outside of the class so it is accessable from home page
   Actions1(
       title: 'study CS2030S',
       duration: 60,
@@ -70,7 +68,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _level = 0;
@@ -81,17 +78,13 @@ class _HomePageState extends State<HomePage> {
     String roomCol = 'Brown';
 
     String getUserId() {
-      // new change
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         return user.uid;
       }
-      // If the user is not authenticated or null, handle the case accordingly
-      // For example, you can return a default or empty string
       return '';
     }
 
-    // Define a function to initialize the WebViewController and load the request
     void initializeWebView(String roomCol) {
       _animationController = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -111,7 +104,7 @@ class _HomePageState extends State<HomePage> {
 
               Future.delayed(Duration(seconds: 1), () {
                 if (!mounted)
-                  return; // Avoid calling setState if the widget is disposed
+                  return; 
                 setState(() {
                   isAnimationRunning = true;
                 });
@@ -138,12 +131,11 @@ class _HomePageState extends State<HomePage> {
                 animationMap[Category.others.toString()]!));
     }
 
-    // Call _getRoomC() and wait for the result before initializing the WebView
     _getRoomC().then((String result) {
       setState(() {
-        roomCol = result; // Set the state variable roomCol
+        roomCol = result; 
         initializeWebView(
-            roomCol); // Initialize WebView with the obtained roomCol value
+            roomCol); 
       });
     });
   }
@@ -549,8 +541,8 @@ class _HomePageState extends State<HomePage> {
             value: _level < 10 ? _exp / 10 : _exp / 100,
             strokeWidth: 3.0,
             backgroundColor: const Color.fromARGB(255, 199, 200, 196),
-            progressColor: Colors.green, // Choose the progress color you desire
-            radius: 20, // Adjust the radius to match your preferred style
+            progressColor: Colors.green, 
+            radius: 20, 
             padding: 8,
           ),
         ),
@@ -594,8 +586,8 @@ class _HomePageState extends State<HomePage> {
           minHeight: 20,
           backgroundColor: const Color.fromARGB(255, 199, 200, 196),
           progressGradientColors: [
-            const Color.fromARGB(255, 11, 122, 68), // Start Color
-            const Color.fromARGB(255, 0, 175, 88), // End Color
+            const Color.fromARGB(255, 11, 122, 68),
+            const Color.fromARGB(255, 0, 175, 88), 
           ],
         ),
       ),
@@ -650,7 +642,7 @@ class _HomePageState extends State<HomePage> {
                                 ? Center(
                                     child: Transform.scale(
                                       scale:
-                                          3, // Adjust the scale to make the indicator smaller or larger
+                                          3
                                       child: CircularProgressIndicator(
                                         strokeWidth: 5,
                                       ),
@@ -688,11 +680,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 isActionLoading
                     ? SquareCircularProgressIndicator(
-                        size: 50.0, // Replace this with your desired size
+                        size: 50.0, 
                         color: Colors.white,
                       )
                     : Icon(
-                        // Conditionally set the icon here
                         currentAction == 'No activity'
                             ? Icons.add
                             : Icons.check,
@@ -848,25 +839,20 @@ class _NewActionState extends State<NewAction> {
   }
 
   String getUserId() {
-    // new change
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       return user.uid;
     }
-    // If the user is not authenticated or null, handle the case accordingly
-    // For example, you can return a default or empty string
     return '';
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamData() {
     String userID = getUserId();
-    // Get the current date in "yyyy-mm-dd" format
     String currentDateStr = convertDateTimeToString(DateTime.now());
 
     CollectionReference habits =
         firestore.collection("users").doc(userID).collection("habits");
 
-    // Listen to the "habits" subcollection for the current date only
     return habits.doc(currentDateStr).collection("habits").snapshots();
   }
 
@@ -909,8 +895,7 @@ class _NewActionState extends State<NewAction> {
     return Column(
       children: [
         Container(
-          // or SizedBox(height: 96) for spacing
-          height: 28, // Adjust the height to move the app bar down
+          height: 28,
         ),
         Expanded(
           child: Scaffold(
@@ -990,10 +975,8 @@ class _NewActionState extends State<NewAction> {
     DocumentReference userDoc = firestore.collection("users").doc(userID);
     CollectionReference habitsCollection = userDoc.collection("habits");
 
-    // Get the current date in "yyyy-mm-dd" format
     String currentDateStr = convertDateTimeToString(DateTime.now());
 
-    // Create a new habit with the name and completion status
     Map<String, dynamic> newHabitData = {
       'habit': [_titleController.text, false],
       'duration': _timeController.text,
@@ -1001,26 +984,14 @@ class _NewActionState extends State<NewAction> {
       'difficulty': _selectedDifficulty.toString(),
       'category': _selectedCategory.toString(),
 
-      'string': '0', // Add the 'string' field with the value '0'
+      'string': '0', 
     };
 
-    // Check if the habit subcollection for the current date exists
     habitsCollection.doc(currentDateStr).set({'x': 0});
-    // If the subcollection for the current date exists, add a new habit document to it
     await habitsCollection
         .doc(currentDateStr)
         .collection('habits')
         .add(newHabitData);
-
-    //_titleController.clear();
-    //_timeController.clear();
-    //_noteController.clear();
-    //calculateHabitPercentage();
-
-    // Pop dialog box
-    //Navigator.of(context).pop();
-
-    //await calculateHeatMapData();
     setState(() {});
   }
 
@@ -1032,7 +1003,6 @@ class _NewActionState extends State<NewAction> {
   List<QueryDocumentSnapshot<Map<String, dynamic>>> _suggestedHabits = [];
 
   void _onHabitSearchChanged(String query) {
-    // Access the stream data and filter the habits based on the query
     streamData().listen((snapshot) {
       print(snapshot);
       List<QueryDocumentSnapshot<Map<String, dynamic>>> matchingHabits = [];
@@ -1061,8 +1031,6 @@ class _NewActionState extends State<NewAction> {
 
   void _onSuggestedHabitSelected(
       QueryDocumentSnapshot<Map<String, dynamic>> habit) {
-    // Populate the TextField with the selected habit
-    print(11);
     final habitData = habit.data();
 
     final habitName = habitData['habit'][0] as String;
@@ -1073,14 +1041,6 @@ class _NewActionState extends State<NewAction> {
     _noteController.text = habitnote;
     _selectedCategory = habitData['category'];
     _selectedDifficulty = habitData['difficulty'];
-    print(777);
-    print(habitName);
-    //_timeController.text = habit['duration'].toString();
-    //_noteController.text = habit['note'].toString();
-    //_selectedCategory = habit['category'];
-    //_selectedDifficulty = habit['difficulty'];
-
-    // Clear the suggestions
     setState(() {
       _suggestedHabits = [];
     });
@@ -1141,10 +1101,10 @@ class _NewActionState extends State<NewAction> {
           labelText: 'Title',
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.grey, // Outline color
-              width: 2, // Outline width
+              color: Colors.grey, 
+              width: 2, 
             ),
-            borderRadius: BorderRadius.circular(8), // Rounded corners
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
       ),
@@ -1157,11 +1117,10 @@ class _NewActionState extends State<NewAction> {
             labelText: 'Duration',
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.grey, // Outline color
-                width: 2, // Outline width
+                color: Colors.grey, 
+                width: 2, 
               ),
               borderRadius: BorderRadius.circular(8),
-              // Rounded corners
             )),
       ),
       TextField(
@@ -1173,11 +1132,10 @@ class _NewActionState extends State<NewAction> {
             labelText: 'Note',
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.grey, // Outline color
-                width: 2, // Outline width
+                color: Colors.grey, 
+                width: 2,
               ),
               borderRadius: BorderRadius.circular(8),
-              // Rounded corners
             )),
       ),
       const SizedBox(
@@ -1266,9 +1224,9 @@ class _NewActionState extends State<NewAction> {
       ElevatedButton(
         onPressed: thisFunction,
         style: ElevatedButton.styleFrom(
-          primary: Colors.orange, // Set the background color
+          primary: Colors.orange,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), // Rounded corners
+            borderRadius: BorderRadius.circular(8), 
           ),
           padding:
               EdgeInsets.symmetric(horizontal: 24, vertical: 12), // Add padding
@@ -1308,7 +1266,6 @@ class _MyRoomState extends State<MyRoom> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _level = 0;
     _exp = 0;

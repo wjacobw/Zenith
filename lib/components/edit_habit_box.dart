@@ -168,7 +168,7 @@ class _EditHabitBoxState extends State<EditHabitBox> {
       }
     }
 
-    return {}; // Return an empty map if the document doesn't exist
+    return {}; 
   }
 
   String getUserId() {

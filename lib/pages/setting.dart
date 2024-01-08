@@ -28,7 +28,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initializeData();
     _level = 0;
@@ -69,16 +68,14 @@ class _SettingPageState extends State<SettingPage> {
 
   Future<void> initializeData() async {
     await fetchData();
-    await countHabits(); // Update the number of habits done before updating the UI
+    await countHabits(); 
     await calculateEmotions();
-    // Add other initialization tasks here if needed
 
-    // Once all the data is fetched and initialized, trigger a rebuild of the UI
     setState(() {});
   }
 
   Future<void> countHabits() async {
-    numberOfHabitsDone = 0; // Reset the count before calculating
+    numberOfHabitsDone = 0;
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       try {
@@ -91,7 +88,7 @@ class _SettingPageState extends State<SettingPage> {
       
 
         for (QueryDocumentSnapshot<
-                Map<String, dynamic>> dateSnapshot //datesnapshot == tanggal
+                Map<String, dynamic>> dateSnapshot 
             in dateSnapshots.docs) {
           CollectionReference habitsCollection =
               dateSnapshot.reference.collection('habits');
@@ -108,7 +105,7 @@ class _SettingPageState extends State<SettingPage> {
               bool habitCompleted = habitList[1];
               if (habitCompleted) {
                
-                numberOfHabitsDone++; // Increment the count of habits done
+                numberOfHabitsDone++; 
               }
             }
           });
@@ -137,7 +134,6 @@ class _SettingPageState extends State<SettingPage> {
           email = userEmail;
         });
       } else {
-        // User document doesn't exist, handle the error case
         setState(() {
           email = 'User not found';
         });
@@ -174,7 +170,7 @@ class _SettingPageState extends State<SettingPage> {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: const Color.fromARGB(255, 0, 0, 0), // Custom text color
+                color: const Color.fromARGB(255, 0, 0, 0), 
               ),
             ),
             SizedBox(height: 20),
@@ -211,26 +207,26 @@ class _SettingPageState extends State<SettingPage> {
 
   Widget _buildUserCard(IconData icon, String title, String subtitle) {
     return Card(
-      elevation: 4, // Add elevation for a more advanced look
+      elevation: 4, 
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12), // Rounded corners
+        borderRadius: BorderRadius.circular(12), 
       ),
       child: ListTile(
         leading: Icon(
           icon,
-          color: Colors.orange, // Custom icon color
+          color: Colors.orange, 
         ),
         title: Text(
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.black87, // Custom title color
+            color: Colors.black87, 
           ),
         ),
         subtitle: Text(
           subtitle,
           style: TextStyle(
-            color: Colors.black54, // Custom subtitle color
+            color: Colors.black54, 
           ),
         ),
       ),
