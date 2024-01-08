@@ -642,7 +642,7 @@ class _HomePageState extends State<HomePage> {
                                 ? Center(
                                     child: Transform.scale(
                                       scale:
-                                          3
+                                          3,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 5,
                                       ),
@@ -652,7 +652,7 @@ class _HomePageState extends State<HomePage> {
                                     controller: _animationController!),
                           ),
                         ],
-                      ) // Show loading indicator while WebView is loading
+                      ) 
                     ],
                   ))),
         ),
